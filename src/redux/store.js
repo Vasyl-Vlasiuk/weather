@@ -13,10 +13,10 @@ const stringMiddleware = () => (dispatch) => (action) => {
 
 const store = createStore(
   combineReducers({weather, theme, currentData}),
-  // compose(
+  compose(
     applyMiddleware(ReduxThunk, stringMiddleware),
-  //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  // )
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 export default store;

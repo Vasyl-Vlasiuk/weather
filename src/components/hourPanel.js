@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { useSelector } from 'react-redux';
 import HourWidget from './hourWidget';
 import Prompt from "./prompt";
@@ -10,24 +12,13 @@ const HourPanel = () => {
   function getGoldenTime(period) {
     const diff = (sunsetTimestamp - sunriseTimestamp); 
     const ratio = diff * (period === "morning" ? 0.1 : 0.9);
-    const time = new Date((sunriseTimestamp + ratio) * 1000).toLocaleTimeString();
 
-    return time.split(':', 2).map(((item) => item)).join(':')
+    return moment((sunriseTimestamp + ratio) * 1000).format('LT')
   }
 
   function getGoldenTimestamp() {
     const diff = (sunsetTimestamp - sunriseTimestamp); 
-    return sunriseTimestamp + diff * 0.1;
-  }
-  
-  function digitalFormat(timestamps) {
-    const time = new Date(timestamps  * 1000).toLocaleTimeString('it-IT').split(':').map(item => +item);
-
-    return {
-      hour: time[0],
-      minute: time[1],
-      Second: time[2]
-    }
+    return (sunriseTimestamp + diff) * 0.1 * 1000;
   }
 
   return (
@@ -35,8 +26,9 @@ const HourPanel = () => {
       <Flex justify='space-evenly' margin="80px 0 50px">
         <HourWidget 
           primarily={sunrise}
-          digPrimarily={digitalFormat(sunriseTimestamp)}
-          am={true}
+          hours ={+moment(sunriseTimestamp  * 1000).format('h')}
+          minutes ={+moment(sunriseTimestamp  * 1000).format('m')}
+          seconds ={+moment(sunriseTimestamp  * 1000).format('s')}
         >
           Sunrise
         </HourWidget>
@@ -45,15 +37,18 @@ const HourPanel = () => {
           big="true"
           primarily={getGoldenTime('morning')}
           secondary={getGoldenTime('evening')}
-          digPrimarily={digitalFormat(getGoldenTimestamp())}
-          am={true}
+          hours = {+moment(getGoldenTimestamp()).format('h')}
+          minutes = {+moment(getGoldenTimestamp()).format('m')}
+          seconds = {+moment(getGoldenTimestamp()).format('s')}
         >
           Golden Hour
         </HourWidget>
 
         <HourWidget 
           primarily={sunset}
-          digPrimarily={digitalFormat(sunsetTimestamp)}
+          hours = {+moment(sunsetTimestamp  * 1000).format('h')}
+          minutes = {+moment(sunsetTimestamp  * 1000).format('m')}
+          seconds = {+moment(sunsetTimestamp  * 1000).format('s')}
         >
           Sunset
         </HourWidget>

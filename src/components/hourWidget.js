@@ -112,7 +112,7 @@ const Second = styled.div`
 `
 const TimePrimarily = styled.div`
   text-align: center;
-  font-size: 28px;
+  font-size: 26px;
   color: #fff;
 
   span {
@@ -126,7 +126,7 @@ const TimeSecondary = styled.div`
   padding: 0 0 36px;
 `
 
-const HourWidget = ({children, big, primarily, secondary, digPrimarily, am}) => {
+const HourWidget = ({children, big, primarily, secondary, hours, minutes, seconds}) => {
 
   return (
     <Flex direction="column" justify="end">
@@ -134,27 +134,21 @@ const HourWidget = ({children, big, primarily, secondary, digPrimarily, am}) => 
 
       <WidgetContainer size={big}>
         <Clock>
-          <Hour value={digPrimarily.hour ? digPrimarily.hour * 30 : 20}>
+          <Hour value={hours ? hours * 30 : 20}>
             <span></span>
           </Hour>
 
-          <Minute value={digPrimarily.minute ? digPrimarily.minute * 6 : 40}>
+          <Minute value={minutes ? minutes * 6 : 40}>
             <span></span>
           </Minute>
 
-          <Second value={digPrimarily.second ? digPrimarily.second * 6 : 60}>
+          <Second value={seconds ? seconds * 6 : 60}>
             <span></span>
           </Second>
         </Clock>
  
-        <TimePrimarily>
-          {primarily} 
-          <span>{am ? " AM" : " PM"}</span>
-        </TimePrimarily>
-        <TimeSecondary>
-          {secondary} {secondary ? "PM" : ""}
-        </TimeSecondary>
-        
+        <TimePrimarily>{primarily}</TimePrimarily>
+        <TimeSecondary>{secondary}</TimeSecondary>   
       </WidgetContainer>
     </Flex>
   );
